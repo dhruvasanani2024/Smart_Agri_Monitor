@@ -255,6 +255,11 @@ export default function MapComponent({ onLogout, userEmail }) {
     setPolygonCoords(geoJsonData.geometry.coordinates[0]);
     setEeLayerUrl(null);
     setAnalysisLabel('');
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
   }, []);
 
   const handleDeleted = useCallback(() => {
@@ -313,13 +318,18 @@ export default function MapComponent({ onLogout, userEmail }) {
   const tile = TILE_LAYERS[baseLayer];
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
       
       {/* ══════════════════════════════════════════════════════════════
           1. TOP NAVIGATION BAR (Fixed at top, mobile responsive)
           ══════════════════════════════════════════════════════════════ */}
       <header
         style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '100%',
           height: 56,
           background: 'linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%)',
           display: 'flex',
@@ -328,7 +338,7 @@ export default function MapComponent({ onLogout, userEmail }) {
           padding: '0 12px',
           color: '#ffffff',
           boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-          zIndex: 2000,
+          zIndex: 9999,
           flexShrink: 0,
         }}
       >
@@ -797,7 +807,7 @@ export default function MapComponent({ onLogout, userEmail }) {
       {/* ══════════════════════════════════════════════════════════════
           4. LEAFLET MAP VIEW (Full Remaining Height)
           ══════════════════════════════════════════════════════════════ */}
-      <main style={{ position: 'relative', width: '100%', flex: 1, height: 'calc(100vh - 56px)' }}>
+      <main style={{ position: 'absolute', top: 56, left: 0, right: 0, bottom: 0, width: '100%', height: 'calc(100% - 56px)', overflow: 'hidden' }}>
         
         {/* Draw Hint Banner on the Map */}
         {showDrawHint && (
